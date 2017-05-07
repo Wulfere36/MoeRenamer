@@ -35,7 +35,9 @@
 			this.lblDest = new System.Windows.Forms.Label();
 			this.lblSource = new System.Windows.Forms.Label();
 			this.lstDest = new System.Windows.Forms.ListView();
+			this.newFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lstSource = new System.Windows.Forms.ListView();
+			this.FileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnClear = new System.Windows.Forms.Button();
 			this.grpInsertRemove = new System.Windows.Forms.GroupBox();
 			this.btnClearInsert = new System.Windows.Forms.Button();
@@ -98,8 +100,6 @@
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-			this.FileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.newFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -193,9 +193,9 @@
 			// 
 			// tbSource
 			// 
-			this.tbSource.Location = new System.Drawing.Point(102, 14);
+			this.tbSource.Location = new System.Drawing.Point(83, 14);
 			this.tbSource.Name = "tbSource";
-			this.tbSource.Size = new System.Drawing.Size(350, 20);
+			this.tbSource.Size = new System.Drawing.Size(369, 20);
 			this.tbSource.TabIndex = 4;
 			this.tbSource.Text = "E:\\TestDir2";
 			this.tbSource.TextChanged += new System.EventHandler(this.tbSource_TextChanged);
@@ -230,6 +230,11 @@
 			this.lstDest.UseCompatibleStateImageBehavior = false;
 			this.lstDest.View = System.Windows.Forms.View.Details;
 			// 
+			// newFileName
+			// 
+			this.newFileName.Text = "New Filename";
+			this.newFileName.Width = 522;
+			// 
 			// lstSource
 			// 
 			this.lstSource.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -241,6 +246,11 @@
 			this.lstSource.UseCompatibleStateImageBehavior = false;
 			this.lstSource.View = System.Windows.Forms.View.Details;
 			this.lstSource.SelectedIndexChanged += new System.EventHandler(this.lstSource_SelectedIndexChanged);
+			// 
+			// FileName
+			// 
+			this.FileName.Text = "FileName";
+			this.FileName.Width = 523;
 			// 
 			// btnClear
 			// 
@@ -902,16 +912,6 @@
 			// errorProvider1
 			// 
 			this.errorProvider1.ContainerControl = this;
-			// 
-			// FileName
-			// 
-			this.FileName.Text = "FileName";
-			this.FileName.Width = 523;
-			// 
-			// newFileName
-			// 
-			this.newFileName.Text = "New Filename";
-			this.newFileName.Width = 522;
 			// 
 			// MoeRenamer
 			// 
