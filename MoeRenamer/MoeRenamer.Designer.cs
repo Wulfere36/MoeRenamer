@@ -197,7 +197,6 @@
 			this.tbSource.Name = "tbSource";
 			this.tbSource.Size = new System.Drawing.Size(369, 20);
 			this.tbSource.TabIndex = 4;
-			this.tbSource.Text = "E:\\TestDir2";
 			this.tbSource.TextChanged += new System.EventHandler(this.tbSource_TextChanged);
 			this.tbSource.DoubleClick += new System.EventHandler(this.tbSource_OnDoubleClick);
 			// 
@@ -249,7 +248,7 @@
 			// 
 			// FileName
 			// 
-			this.FileName.Text = "FileName";
+			this.FileName.Text = "Original Filename";
 			this.FileName.Width = 523;
 			// 
 			// btnClear
