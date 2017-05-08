@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*	File: Validators.cs
+ *	Purpose: First attempt at including validation controls on the form. Don't like this solution though.
+ *	Author: Morris Soulliere (Wulfere36)
+ *	Copyright: 2017 - Morris Soulliere
+*/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

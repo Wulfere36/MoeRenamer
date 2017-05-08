@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*	File: Program.cs
+ *	Purpose: Starts the program
+ *	Author: Morris Soulliere (Wulfere36)
+ *	Copyright: 2017 - Morris Soulliere
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

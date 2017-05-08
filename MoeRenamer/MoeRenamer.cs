@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*	Program: MoeRenamer
+ *	Purpose: Rename multiple files using easy to understand controls
+ *	Author: Morris Soulliere (Wulfere36)
+ *	Copyright: 2017 - Morris Soulliere
+ *	Icons: grabbed from shell32.dll and xyplorer
+*/ 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,10 +28,22 @@ namespace MoeRenamer {
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// If the user clicked on the Number Files checkbox, then either enable the other fields
+		/// or disable them, depending on if the checkbox is checked or not
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void chkNumberFiles_CheckedChanged(object sender, EventArgs e) {
 			resetNumberFiles(chkNumberFiles.Checked);
 		}
 
+		/// <summary>
+		/// If the user changed the selected item in New Position combobox, then either enable
+		/// the other fields (if selection is now Other), or disable those fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void cmbNewPosition_SelectedIndexChanged(object sender, EventArgs e) {
 			string value = cmbNewPosition.SelectedItem.ToString();
 			if (value=="Other") {
@@ -37,6 +55,11 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User can double-click the Source Folder textbox and get the folder select dialog
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void tbSource_OnDoubleClick(object sender, EventArgs e) {
 			fbd.ShowDialog();
 			tbSource.Text = fbd.SelectedPath.ToString();
@@ -45,51 +68,93 @@ namespace MoeRenamer {
 			toolTipRenamer.SetToolTip(tbDest, fbd.SelectedPath.ToString());
 		}
 
+		/// <summary>
+		/// User clicks on the Get Files button, which will call the GetSourceFiles method
+		/// in the MainClass class
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnSourceFolder_Click(object sender, EventArgs e) {
 			lstSource.Items.Clear();
 			MainClass.GetSourceFiles(lstSource, tbSource.Text);
 		}
 
+		/// <summary>
+		/// User has the option to change the destination folder (which automatically inherits the source
+		/// folder's address) by click the Folder button beside the Destination text box
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnDestFolder_Click(object sender, EventArgs e) {
 			fbd.ShowDialog();
 			tbDest.Text = fbd.SelectedPath.ToString();
 			toolTipRenamer.SetToolTip(tbDest, fbd.SelectedPath.ToString());
 		}
 
+		/// <summary>
+		/// If the source folder textbox has changed content, then reset the tool tips and destination
+		/// folder. May have to look at someway of preserving the destination folder entry if the
+		/// user had originally set it themselves. Maybe a bool value.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void tbSource_TextChanged(object sender, EventArgs e) {
 			toolTipRenamer.SetToolTip(tbSource, tbSource.Text);
 			tbDest.Text = tbSource.Text;
 			toolTipRenamer.SetToolTip(tbDest, tbDest.Text);
 		}
 
+		/// <summary>
+		/// User wants to test the renaming procedure only, just to make sure that everything is going
+		/// to come out the way they wanted. Will do everything the actual rename does but will not
+		/// physically change the filename
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnTestRename_Click(object sender, EventArgs e) {
 			_testOnly = true;
 			renameFiles();
 		}
 
+		/// <summary>
+		/// Will do the same thing as the test button, but at the end will physically change/move
+		/// the file
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnRenameFiles_Click(object sender, EventArgs e) {
 			_testOnly = false;
 			renameFiles();
 		}
 
+		/// <summary>
+		/// Main function. Starts the ball rolling. Sets up some variables, instantiates an Options object,
+		/// loads all the data from the form into the object, then passes the four values to the ProcessFiles\
+		/// method: source listview, destination listview, options object, _testOnly variable
+		/// </summary>
 		private void renameFiles() {
-			//_sourceFolder = tbSource.Text;
-			//_destFolder = tbDest.Text;
 
+			// make sure there is something to process before going any further
 			if (lstSource.Items.Count > 0) {
 
-				// default the starting number for numbering files
+				// default some values before collecting them from the form
+				// need this in case the user removed some values. They are required for smooth\
+				// functionality
 				float startNum = 1;
 				int padSize = 1;
 				int insertStartPos = 1;
 				int stringLength = 0;
 				int exactPos = 0;
 
-				// create an Options object, load it, and send it the MainClass method
+				// create the Options object and load it
 				Options options = new Options();
 
 				// START of Main Options panel
+				// Get the information and store into the proper options fields
+				// Using _formIsValidated as failsafe. There has to be at least one item below that makes it true
+				// before it will do any renaming.
 				if (txtOldText.Text!="") {
+					// we can only load a replacement text field if we have original text to look for
 					_formIsValidated = true;
 					options.OriginalText = txtOldText.Text;
 					options.ReplacementText = txtNewText.Text;
@@ -104,6 +169,7 @@ namespace MoeRenamer {
 					options.DelDupeSpace = chkDelDupSpace.Checked;
 				}
 				if (txtOrigChars.Text != "") {
+					// we can only allow changing individual characters if we have original chars to search for
 					_formIsValidated = true;
 					options.MultipleChars = (txtOrigChars.Text.Length > 0 ? true : false);
 					options.OrigChars = txtOrigChars.Text;
@@ -113,6 +179,7 @@ namespace MoeRenamer {
 
 				// START of Prefix/Suffix panel
 				if (radPrefix.Checked || radSuffix.Checked) {
+					// only load the options fields if either radPrefix or radSuffix is selected
 					_formIsValidated = true;
 					options.PrefixFiles = (radPrefix.Checked ? true : radSuffix.Checked ? true : false);
 					options.PrefixSuffix = (radPrefix.Checked ? 0 : radSuffix.Checked ? 1 : -1);
@@ -137,6 +204,7 @@ namespace MoeRenamer {
 
 				// START of Insert/Remove/Move panel
 				if (radInsert.Checked || radRemove.Checked || radMove.Checked) {
+					// only load the options fields if radInsert, radRemove, or radMove have been checked
 					_formIsValidated = true;
 					options.InsertRemoveMove = (radInsert.Checked ? 0 : radRemove.Checked ? 1 : radMove.Checked ? 2 : -1);
 					options.InsertRemoveMoveText = txtInsRemText.Text;
@@ -154,6 +222,8 @@ namespace MoeRenamer {
 				// END of Insert/Remove/Move panel
 
 				// START of Default Options panel
+				// load all the values from the deault area of the form, plus ChgCase (should have put that in the
+				// defaults section I guess)
 				options.ChgCase = (radToLower.Checked ? 0 : radToUpper.Checked ? 1 : radToCamel.Checked ? 2 : -1);
 				options.DefIncludeSeparator = chkIncludeSep.Checked;
 				options.DefIgnoreExtension = chkIgnoreExtension.Checked;
@@ -162,31 +232,53 @@ namespace MoeRenamer {
 				options.DefDelimiter = txtDefaultDelimiter.Text;
 				// END of Default Options panel
 
-				// one final check before starting: source folder needs to be there and the form has to be valid
+				// one final check before starting: the form has to be valid
 				if (_formIsValidated) {
 					options.SrcFolder = tbSource.Text;
+
+					// if somehow the destination folder textbox is empty, then default it to the source folder
 					if (tbDest.Text != "") {
 						options.DstFolder = tbDest.Text;
 					} else {
 						options.DstFolder = tbSource.Text;
 					}
+
+					// Calls the ProcessFiles method and loops through every entry in the Source Listview
 					MainClass.ProcessFiles(lstSource, lstDest, options, _testOnly);
+
 				} else {
+					// form not validated. Right now it just means that there is nothing entered on the form
+					// eventually it will reflect any data entry errors the user may have made
 					MessageBox.Show("Nothing to do. Please select an option on the form", "Nothing To Do", MessageBoxButtons.OK);
 				}
+
+				// remove the options object. Want to make sure there are no artifacts in case we want to use it again right away
 				options = null;
 
 			} else {
+				// user did select any files, so tell them that
 				MessageBox.Show("There are no files listed in the source list view. Select some files first.", "No Files to Rename", MessageBoxButtons.OK);
 			}
 		}
 
+		/// <summary>
+		/// When the user begins entering text into the new extension textbox, it will automatically check the box
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void txtNewExtension_TextChanged(object sender, EventArgs e) {
 			if (this.Text!="") {
 				chkChangeExtension.Checked = true;
 			}
 		}
 
+		/// <summary>
+		/// Is the user changed their mind, then unchecking the new extension checkbox will remove the value from
+		/// the checkbox. I put in the .Checked=false because it did not seem to catch on its own. Will research it
+		/// later to figure out if there is a more elegant solution
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void chkChangeExtension_CheckedChanged(object sender, EventArgs e) {
 			if (!chkChangeExtension.Checked) {
 				txtNewExtension.Text = "";
@@ -195,6 +287,13 @@ namespace MoeRenamer {
 				
 		}
 
+		/// <summary>
+		/// Created a richtextbox at the bottom of the screen, formatted as Courier New. The user can click on an
+		/// item in the source listview and it will put that text into the richtextbox. Above the richtextbox is
+		/// ruler, also formatted as Courier New, that will allow the user to see where in the string certain things are
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void lstSource_SelectedIndexChanged(object sender, EventArgs e) {
 			if (lstSource.SelectedItems.Count > 0) {
 				var item = lstSource.SelectedItems[0];
@@ -203,13 +302,24 @@ namespace MoeRenamer {
 
 		}
 
+		/// <summary>
+		/// User clicks the Clear button beside the change case options. This will ensure that all radio buttons have
+		/// been deselected
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClearChangeCase_Click(object sender, EventArgs e) {
 			radToCamel.Checked = false;
 			radToLower.Checked = false;
 			radToUpper.Checked = false;
 		}
 
-
+		/// <summary>
+		/// User clicks the Clear button beside the Insert,Remove,Move options. This removes all radio button
+		/// selections
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClearInsert_Click(object sender, EventArgs e) {
 			radInsert.Checked = false;
 			radRemove.Checked = false;
@@ -217,6 +327,11 @@ namespace MoeRenamer {
 
 		}
 
+		/// <summary>
+		/// User clicks on one of the radInsert button, enable and disable the proper fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void radInsert_CheckedChanged(object sender, EventArgs e) {
 			if (radInsert.Checked) {
 				lblInsRemText.Enabled = true;
@@ -231,6 +346,12 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User clicked on the radRemove button. Enable or disable the proper fields (slightly different from
+		/// the insert function)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void radRemove_CheckedChanged(object sender, EventArgs e) {
 			if (radRemove.Checked) {
 				lblInsRemText.Enabled = true;
@@ -253,6 +374,11 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User clicked on the radMove button. Enable or Disable the proper fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void radMove_CheckedChanged(object sender, EventArgs e) {
 			if (radMove.Checked) {
 				lblInsRemText.Enabled = true;
@@ -277,6 +403,11 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User clicked on the radPrefix button, so enable or disable the proper fields
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void radPrefix_CheckedChanged(object sender, EventArgs e) {
 			if (radPrefix.Checked) {
 				lblNewTextSep.Enabled = true;
@@ -287,6 +418,14 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User clicked on the radSuffix button, so enable or disable the proper fields
+		/// It does the exact same thing as the radPrefix button, just not sure how to combine the
+		/// two into one function. Suppose I can make another method that performs the actual functions,
+		/// passing it the radio object selected
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void radSuffix_CheckedChanged(object sender, EventArgs e) {
 			if (radSuffix.Checked) {
 				lblNewTextSep.Enabled = true;
@@ -297,6 +436,12 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// User clicks on the clear button beside the Prefix, Suffix options. Make sure all radio buttons
+		/// are unselected.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClearPrefixSuffix_Click(object sender, EventArgs e) {
 			radPrefix.Checked = false;
 			radSuffix.Checked = false;
@@ -304,6 +449,10 @@ namespace MoeRenamer {
 
 		}
 
+		/// <summary>
+		/// Initial attempt at combining the two Prefix,Suffix radiobutton events
+		/// Basically disables all the fields
+		/// </summary>
 		private void TurnOffPrefixSuffixPanel() {
 			lblNewTextSep.Enabled = false;
 			txtNewTextSep.Enabled = false;
@@ -317,10 +466,21 @@ namespace MoeRenamer {
 			txtPadChar.Enabled = false;
 		}
 
+		/// <summary>
+		/// Main form clearing method. Resets the form to the beginning values
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClear_Click(object sender, EventArgs e) {
 			resetForm();
 		}
 
+		/// <summary>
+		/// Just added this. Forgot to rename the button. Created a button beside the Source Folder textbox that
+		/// will open the Browse Folders dialog
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button1_Click(object sender, EventArgs e) {
 			fbd.ShowDialog();
 			tbSource.Text = fbd.SelectedPath.ToString();

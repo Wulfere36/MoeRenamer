@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*	File: Options.cs
+ *	Purpose: Holds the data from the forms to make passing values to MainClass easier
+ *	Author: Morris Soulliere (Wulfere36)
+ *	Copyright: 2017 - Morris Soulliere
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,7 +69,9 @@ namespace MoeRenamer {
 		public string NewTextSep { get { return _newTextSep; } set { _newTextSep = value; } }
 
 		public string InsertRemoveMoveText { get { return _insertRemoveMoveText; } set { _insertRemoveMoveText = value; } }
+
 		public string SrcFolder { get { return _srcFolder; } set { _srcFolder = value; } }
+
 		public string DstFolder { get { return _dstFolder; } set { _dstFolder = value; } }
 
 		public int ChgCase { get {return _chgCase;} set {_chgCase = value;} }

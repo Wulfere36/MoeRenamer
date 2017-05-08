@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*	File: MainClass.cs
+ *	Purpose: Does the processing of the files, loading the options object
+ *	Author: Morris Soulliere (Wulfere36)
+ *	Copyright: 2017 - Morris Soulliere
+*/
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -10,6 +15,9 @@ using System.Windows.Forms;
 namespace MoeRenamer {
 	class MainClass {
 
+		/// <summary>
+		/// Just setting up some default values
+		/// </summary>
 		protected static OpenFileDialog ofd = new OpenFileDialog();
 		protected static Options opt = new Options();
 		protected static TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
@@ -31,6 +39,12 @@ namespace MoeRenamer {
 		protected static string newFileName = "";
 		protected static bool _renameSucceeded = false;
 
+		/// <summary>
+		/// Opens the filebrowse dialog, and then loads the source listview with the files 
+		/// selected by the user
+		/// </summary>
+		/// <param name="lstSource">Listview in MoeRenamer form</param>
+		/// <param name="sourceFolder">The folder where we want files from</param>
 		static public void GetSourceFiles(ListView lstSource, string sourceFolder) {
 			try {
 				lstSource.Items.Clear();
@@ -42,7 +56,6 @@ namespace MoeRenamer {
 					for (int x=0; x<selectedFiles.Length; x++) {
 						ListViewItem lvi = new ListViewItem(selectedFiles[x]);
 						lstSource.Items.Add(lvi);
-						// lstSource.Items.Add(selectedFiles[x]);
 					}
 				}
 			}
@@ -51,6 +64,14 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// The meat and potatoes of the app. Load up the defaulted vars above with the values from the
+		/// options object. Loops through each file and call the RenameFiles method
+		/// </summary>
+		/// <param name="lstSource"></param>
+		/// <param name="lstDest"></param>
+		/// <param name="options"></param>
+		/// <param name="testOnly"></param>
 		static public void ProcessFiles(ListView lstSource, ListView lstDest, Options options, bool testOnly) {
 			opt = options;
 			trueMulti = false;
@@ -60,6 +81,7 @@ namespace MoeRenamer {
 			currentNumber = 1;
 			totalSourceItems = lstSource.Items.Count;
 
+			// clear the destination listview. We don't want old stuff here
 			lstDest.Items.Clear();
 
 			// build the array of file numbers in case we need it later
@@ -82,7 +104,7 @@ namespace MoeRenamer {
 				chgExt = true;
 			}
 
-			// is it a multi-char replacement?
+			// is there a multi-char replacement (ie: [] )?
 			if (opt.MultipleChars) {
 				origChars = opt.OrigChars.Select(x => new string(x, 1)).ToArray();
 				if (opt.ReplChars.Length == opt.OrigChars.Length) {
@@ -91,25 +113,37 @@ namespace MoeRenamer {
 				}
 			}
 
+			// is there any prefixes or suffixes to add?
 			if (opt.PrefixFiles) {
 				addPrefix = true;
 			}
 
+			// if user provided a starting number for numbering files, use it
 			if (opt.NumberStart>1) {
 				currentNumber = opt.NumberStart;
 			}
 
-			foreach(ListViewItem itemRow in lstSource.Items) {
-				//lstDest.Items.Add( RenameFile(listItem.Text, opt.OriginalText, opt.ReplacementText) );
+			// begin the loop
+			foreach (ListViewItem itemRow in lstSource.Items) {
+
+				// get the next random element in the number array
 				nextRandomNumber = rand.Next(1, totalSourceItems+1);
+
+				// rename the file and store the new value in newFileName
 				newFileName = RenameFile(itemRow.SubItems[0].Text);
 
+				// add the new and improved filename to the destination listview
 				ListViewItem lvi = new ListViewItem(newFileName);
 				lstDest.Items.Add(lvi);
 
+				// if it isn't just a test, then do the actual file rename/move
 				if (!testOnly) {
-					// perform the actual rename
+					// store the result of the renaming into a boolean value
 					_renameSucceeded = doPhysicalRename(itemRow.SubItems[0].Text, newFileName);
+
+					// if the rename was successful, then replace the item in the source listview with the new filename
+					// can also be the place where we would added a checkmark beside the filename, or an X
+					// I don't have that column yet.
 					if (_renameSucceeded) {
 						itemRow.SubItems[0].Text = newFileName;
 					}
@@ -184,8 +218,15 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Loops through the origChars array and performs a replace for each one
+		/// trueMulti means you have origChars [] and replChars () so it will replace
+		/// [ with ( and ] with ). Otherwise it will replace all occurrences of [] with
+		/// whatever is in the replChars field - which will usually be null
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string ReplaceMultiChars(string oldFile) {
-			// loop through the original char array and replace as required
 			for (int x=0; x<origChars.Length; x++) {
 				if (trueMulti)
 					oldFile = oldFile.Replace(origChars[x], replChars[x]);
@@ -195,6 +236,11 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Change the case of the filename
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string ChangeStringCase(string oldFile) {
 			switch (opt.ChgCase) {
 				case 0:
@@ -210,15 +256,25 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// this can be tricky. Have to figure out how to iterate the string multiple times
+		/// in order to be sure all duplicate spaces are removed. Decided on a while statement
+		/// not as tricky as I thought
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string DeleteDuplicateSpaces(string oldFile) {
-			// this can be tricky. Have to figure out how to iterate the string multiple times
-			// in order to be sure all duplicate spaces are removed
 			while (oldFile.Contains("  ")) {
 				oldFile = oldFile.Replace("  ", " ");
 			}
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Only changing the LAST extension.
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string ChangeExtension(string oldFile) {
 			int endTagStartPosition = oldFile.LastIndexOf(".");
 			if (endTagStartPosition >= 0)
@@ -227,15 +283,25 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Adds the prefix or suffix
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string AddPrefixSuffix(string oldFile) {
 			string newPrefix = "";
 
+			// if user wants to number the files set the newPrefix to a number string with proper padding and pad char
+			// otherwise just add the text from the NewTextSep field
 			if (opt.NumberFiles) {
 				newPrefix = BuildNumberString(opt.PaddingChar, opt.PaddingSize);
 			} else {
 				newPrefix = opt.NewTextSep;
 			}
 
+			// 0 means prefix is being added so add the newPrefix to the beginning of the filename
+			// 1 means suffix so do the suffix thing
+			// otherwise, something went wrong so don't do anything
 			if (opt.PrefixSuffix==0) {
 				if (opt.DefIncludeSeparator) {
 					oldFile = newPrefix + " " + opt.DefSeparator + " " + oldFile;
@@ -252,12 +318,23 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Build the number string. Uses the number array we created right at the beginning
+		/// and increments an array index counter. Handy for when the user wants to randomize the
+		/// numbering, as that means this function does not have to change at all
+		/// </summary>
+		/// <param name="padChar"></param>
+		/// <param name="padSize"></param>
+		/// <returns></returns>
 		static private string BuildNumberString(string padChar, int padSize) {
 			string theNumber = fileNumbers[curArrayIndex].ToString();
 			curArrayIndex++;
 			return theNumber.PadLeft(padSize, char.Parse(padChar));
 		}
 
+		/// <summary>
+		/// Called right at the beginning in case user wants to randomize the numbering.
+		/// </summary>
 		static private void RandomizeArray() {
 			for ( int n = fileNumbers.Count - 1; n > 0; --n) {
 				int k = rand.Next(n + 1);
@@ -267,6 +344,12 @@ namespace MoeRenamer {
 			}
 		}
 
+		/// <summary>
+		/// Check the value for InsertRemoveMove field and do the proper case statement
+		/// Otherwise, something went wrong so don't do anything
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string InsertRemoveMove(string oldFile) {
 			// we're here so let's figure out exactly what we're doing
 			switch (opt.InsertRemoveMove) {
@@ -284,6 +367,12 @@ namespace MoeRenamer {
 
 		}
 
+		/// <summary>
+		/// Insert new text. We have the options of inserting at the beginning of the string, at the end, or at
+		/// a specific location
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string InsertText(string oldFile) {
 			if (opt.InsertRemoveMoveText=="") {
 				return oldFile;
@@ -306,6 +395,12 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Removes text from the string. We can either remove an actual string, or a position and
+		/// length from the original filename.
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string RemoveText(string oldFile) {
 			string removeText = opt.InsertRemoveMoveText;
 			int originalLength = oldFile.Length;
@@ -328,6 +423,14 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// A trickier method. Can move an existing string, or a selection using start position and length
+		/// The text can be moved to beginning, end or specific location
+		/// If specific location, we have to track it, because it will change once the old text has been
+		/// removed.
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <returns></returns>
 		static private string MoveText(string oldFile) {
 			// get the text that needs to be moved
 			string moveText = opt.InsertRemoveMoveText;
@@ -377,6 +480,13 @@ namespace MoeRenamer {
 			return oldFile;
 		}
 
+		/// <summary>
+		/// Physically rename the file. Using File.Move because it seemed like the right thing to do.
+		/// If the user changes the destination folder, then we still want the original file deleted
+		/// </summary>
+		/// <param name="oldFile"></param>
+		/// <param name="newFile"></param>
+		/// <returns></returns>
 		static private bool doPhysicalRename(string oldFile, string newFile) {
 			string sourceFile = Path.Combine(opt.SrcFolder,oldFile);
 			if (opt.DstFolder=="") {
