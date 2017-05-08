@@ -320,5 +320,13 @@ namespace MoeRenamer {
 		private void btnClear_Click(object sender, EventArgs e) {
 			resetForm();
 		}
+
+		private void button1_Click(object sender, EventArgs e) {
+			fbd.ShowDialog();
+			tbSource.Text = fbd.SelectedPath.ToString();
+			toolTipRenamer.SetToolTip(tbSource, fbd.SelectedPath.ToString());
+			tbDest.Text = tbSource.Text;
+			toolTipRenamer.SetToolTip(tbDest, fbd.SelectedPath.ToString());
+		}
 	}
 }

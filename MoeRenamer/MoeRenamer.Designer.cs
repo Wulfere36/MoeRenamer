@@ -28,8 +28,6 @@
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.label2 = new System.Windows.Forms.Label();
-			this.btnDestFolder = new System.Windows.Forms.Button();
-			this.btnSourceFolder = new System.Windows.Forms.Button();
 			this.tbDest = new System.Windows.Forms.TextBox();
 			this.tbSource = new System.Windows.Forms.TextBox();
 			this.lblDest = new System.Windows.Forms.Label();
@@ -38,9 +36,7 @@
 			this.newFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lstSource = new System.Windows.Forms.ListView();
 			this.FileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.btnClear = new System.Windows.Forms.Button();
 			this.grpInsertRemove = new System.Windows.Forms.GroupBox();
-			this.btnClearInsert = new System.Windows.Forms.Button();
 			this.txtExactPos = new System.Windows.Forms.TextBox();
 			this.lblExactPosition = new System.Windows.Forms.Label();
 			this.radMove = new System.Windows.Forms.RadioButton();
@@ -54,9 +50,7 @@
 			this.lblStartPos = new System.Windows.Forms.Label();
 			this.txtInsRemText = new System.Windows.Forms.TextBox();
 			this.lblInsRemText = new System.Windows.Forms.Label();
-			this.btnTestRename = new System.Windows.Forms.Button();
 			this.grpPrefixSuffix = new System.Windows.Forms.GroupBox();
-			this.btnClearPrefixSuffix = new System.Windows.Forms.Button();
 			this.txtStartNumber = new System.Windows.Forms.TextBox();
 			this.lblStartNumber = new System.Windows.Forms.Label();
 			this.chkRandomize = new System.Windows.Forms.CheckBox();
@@ -69,7 +63,6 @@
 			this.lblNewTextSep = new System.Windows.Forms.Label();
 			this.radSuffix = new System.Windows.Forms.RadioButton();
 			this.radPrefix = new System.Windows.Forms.RadioButton();
-			this.btnRenameFiles = new System.Windows.Forms.Button();
 			this.grpMainRename = new System.Windows.Forms.GroupBox();
 			this.txtReplChars = new System.Windows.Forms.TextBox();
 			this.txtOrigChars = new System.Windows.Forms.TextBox();
@@ -77,7 +70,6 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.lblOrigChars = new System.Windows.Forms.Label();
 			this.txtNewExtension = new System.Windows.Forms.TextBox();
-			this.btnClearChangeCase = new System.Windows.Forms.Button();
 			this.radToCamel = new System.Windows.Forms.RadioButton();
 			this.radToUpper = new System.Windows.Forms.RadioButton();
 			this.radToLower = new System.Windows.Forms.RadioButton();
@@ -100,6 +92,15 @@
 			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+			this.button1 = new System.Windows.Forms.Button();
+			this.btnDestFolder = new System.Windows.Forms.Button();
+			this.btnSourceFolder = new System.Windows.Forms.Button();
+			this.btnClear = new System.Windows.Forms.Button();
+			this.btnClearInsert = new System.Windows.Forms.Button();
+			this.btnTestRename = new System.Windows.Forms.Button();
+			this.btnClearPrefixSuffix = new System.Windows.Forms.Button();
+			this.btnRenameFiles = new System.Windows.Forms.Button();
+			this.btnClearChangeCase = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -119,6 +120,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.button1);
 			this.splitContainer1.Panel1.Controls.Add(this.richTextBox1);
 			this.splitContainer1.Panel1.Controls.Add(this.label2);
 			this.splitContainer1.Panel1.Controls.Add(this.btnDestFolder);
@@ -164,38 +166,18 @@
 			this.label2.Text = "         1         2         3         4         5         6         7\r\n123456789" +
     "0123456789012345678901234567890123456789012345678901234567890";
 			// 
-			// btnDestFolder
-			// 
-			this.btnDestFolder.Location = new System.Drawing.Point(444, 281);
-			this.btnDestFolder.Name = "btnDestFolder";
-			this.btnDestFolder.Size = new System.Drawing.Size(89, 23);
-			this.btnDestFolder.TabIndex = 7;
-			this.btnDestFolder.Text = "Change Folder";
-			this.btnDestFolder.UseVisualStyleBackColor = true;
-			this.btnDestFolder.Click += new System.EventHandler(this.btnDestFolder_Click);
-			// 
-			// btnSourceFolder
-			// 
-			this.btnSourceFolder.Location = new System.Drawing.Point(458, 12);
-			this.btnSourceFolder.Name = "btnSourceFolder";
-			this.btnSourceFolder.Size = new System.Drawing.Size(75, 23);
-			this.btnSourceFolder.TabIndex = 6;
-			this.btnSourceFolder.Text = "Get Files";
-			this.btnSourceFolder.UseVisualStyleBackColor = true;
-			this.btnSourceFolder.Click += new System.EventHandler(this.btnSourceFolder_Click);
-			// 
 			// tbDest
 			// 
 			this.tbDest.Location = new System.Drawing.Point(102, 283);
 			this.tbDest.Name = "tbDest";
-			this.tbDest.Size = new System.Drawing.Size(336, 20);
+			this.tbDest.Size = new System.Drawing.Size(396, 20);
 			this.tbDest.TabIndex = 5;
 			// 
 			// tbSource
 			// 
 			this.tbSource.Location = new System.Drawing.Point(83, 14);
 			this.tbSource.Name = "tbSource";
-			this.tbSource.Size = new System.Drawing.Size(369, 20);
+			this.tbSource.Size = new System.Drawing.Size(342, 20);
 			this.tbSource.TabIndex = 4;
 			this.tbSource.TextChanged += new System.EventHandler(this.tbSource_TextChanged);
 			this.tbSource.DoubleClick += new System.EventHandler(this.tbSource_OnDoubleClick);
@@ -251,16 +233,6 @@
 			this.FileName.Text = "Original Filename";
 			this.FileName.Width = 523;
 			// 
-			// btnClear
-			// 
-			this.btnClear.Location = new System.Drawing.Point(247, 644);
-			this.btnClear.Name = "btnClear";
-			this.btnClear.Size = new System.Drawing.Size(90, 23);
-			this.btnClear.TabIndex = 12;
-			this.btnClear.Text = "Reset Form";
-			this.btnClear.UseVisualStyleBackColor = true;
-			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-			// 
 			// grpInsertRemove
 			// 
 			this.grpInsertRemove.BackColor = System.Drawing.SystemColors.Control;
@@ -284,16 +256,6 @@
 			this.grpInsertRemove.TabIndex = 2;
 			this.grpInsertRemove.TabStop = false;
 			this.grpInsertRemove.Text = "Insert / Remove / Move";
-			// 
-			// btnClearInsert
-			// 
-			this.btnClearInsert.Location = new System.Drawing.Point(295, 16);
-			this.btnClearInsert.Name = "btnClearInsert";
-			this.btnClearInsert.Size = new System.Drawing.Size(39, 23);
-			this.btnClearInsert.TabIndex = 13;
-			this.btnClearInsert.Text = "Clear";
-			this.btnClearInsert.UseVisualStyleBackColor = true;
-			this.btnClearInsert.Click += new System.EventHandler(this.btnClearInsert_Click);
 			// 
 			// txtExactPos
 			// 
@@ -440,16 +402,6 @@
 			this.lblInsRemText.TabIndex = 0;
 			this.lblInsRemText.Text = "Text to Ins/Rem:";
 			// 
-			// btnTestRename
-			// 
-			this.btnTestRename.Location = new System.Drawing.Point(15, 644);
-			this.btnTestRename.Name = "btnTestRename";
-			this.btnTestRename.Size = new System.Drawing.Size(90, 23);
-			this.btnTestRename.TabIndex = 11;
-			this.btnTestRename.Text = "Test Only";
-			this.btnTestRename.UseVisualStyleBackColor = true;
-			this.btnTestRename.Click += new System.EventHandler(this.btnTestRename_Click);
-			// 
 			// grpPrefixSuffix
 			// 
 			this.grpPrefixSuffix.BackColor = System.Drawing.SystemColors.Control;
@@ -472,16 +424,6 @@
 			this.grpPrefixSuffix.TabIndex = 1;
 			this.grpPrefixSuffix.TabStop = false;
 			this.grpPrefixSuffix.Text = "Prefix/Suffix";
-			// 
-			// btnClearPrefixSuffix
-			// 
-			this.btnClearPrefixSuffix.Location = new System.Drawing.Point(204, 17);
-			this.btnClearPrefixSuffix.Name = "btnClearPrefixSuffix";
-			this.btnClearPrefixSuffix.Size = new System.Drawing.Size(39, 23);
-			this.btnClearPrefixSuffix.TabIndex = 12;
-			this.btnClearPrefixSuffix.Text = "Clear";
-			this.btnClearPrefixSuffix.UseVisualStyleBackColor = true;
-			this.btnClearPrefixSuffix.Click += new System.EventHandler(this.btnClearPrefixSuffix_Click);
 			// 
 			// txtStartNumber
 			// 
@@ -613,16 +555,6 @@
 			this.radPrefix.UseVisualStyleBackColor = true;
 			this.radPrefix.CheckedChanged += new System.EventHandler(this.radPrefix_CheckedChanged);
 			// 
-			// btnRenameFiles
-			// 
-			this.btnRenameFiles.Location = new System.Drawing.Point(131, 644);
-			this.btnRenameFiles.Name = "btnRenameFiles";
-			this.btnRenameFiles.Size = new System.Drawing.Size(90, 23);
-			this.btnRenameFiles.TabIndex = 10;
-			this.btnRenameFiles.Text = "Rename Files";
-			this.btnRenameFiles.UseVisualStyleBackColor = true;
-			this.btnRenameFiles.Click += new System.EventHandler(this.btnRenameFiles_Click);
-			// 
 			// grpMainRename
 			// 
 			this.grpMainRename.BackColor = System.Drawing.SystemColors.Control;
@@ -698,16 +630,6 @@
 			this.txtNewExtension.Size = new System.Drawing.Size(51, 20);
 			this.txtNewExtension.TabIndex = 13;
 			this.txtNewExtension.TextChanged += new System.EventHandler(this.txtNewExtension_TextChanged);
-			// 
-			// btnClearChangeCase
-			// 
-			this.btnClearChangeCase.Location = new System.Drawing.Point(295, 170);
-			this.btnClearChangeCase.Name = "btnClearChangeCase";
-			this.btnClearChangeCase.Size = new System.Drawing.Size(39, 23);
-			this.btnClearChangeCase.TabIndex = 12;
-			this.btnClearChangeCase.Text = "Clear";
-			this.btnClearChangeCase.UseVisualStyleBackColor = true;
-			this.btnClearChangeCase.Click += new System.EventHandler(this.btnClearChangeCase_Click);
 			// 
 			// radToCamel
 			// 
@@ -912,6 +834,117 @@
 			// 
 			this.errorProvider1.ContainerControl = this;
 			// 
+			// button1
+			// 
+			this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+			this.button1.Location = new System.Drawing.Point(429, 12);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(29, 23);
+			this.button1.TabIndex = 10;
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// btnDestFolder
+			// 
+			this.btnDestFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnDestFolder.Image")));
+			this.btnDestFolder.Location = new System.Drawing.Point(504, 281);
+			this.btnDestFolder.Name = "btnDestFolder";
+			this.btnDestFolder.Size = new System.Drawing.Size(29, 23);
+			this.btnDestFolder.TabIndex = 7;
+			this.btnDestFolder.UseVisualStyleBackColor = true;
+			this.btnDestFolder.Click += new System.EventHandler(this.btnDestFolder_Click);
+			// 
+			// btnSourceFolder
+			// 
+			this.btnSourceFolder.Image = ((System.Drawing.Image)(resources.GetObject("btnSourceFolder.Image")));
+			this.btnSourceFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnSourceFolder.Location = new System.Drawing.Point(458, 12);
+			this.btnSourceFolder.Name = "btnSourceFolder";
+			this.btnSourceFolder.Size = new System.Drawing.Size(75, 23);
+			this.btnSourceFolder.TabIndex = 6;
+			this.btnSourceFolder.Text = "Get Files";
+			this.btnSourceFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnSourceFolder.UseVisualStyleBackColor = true;
+			this.btnSourceFolder.Click += new System.EventHandler(this.btnSourceFolder_Click);
+			// 
+			// btnClear
+			// 
+			this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
+			this.btnClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnClear.Location = new System.Drawing.Point(247, 644);
+			this.btnClear.Name = "btnClear";
+			this.btnClear.Size = new System.Drawing.Size(90, 23);
+			this.btnClear.TabIndex = 12;
+			this.btnClear.Text = "Reset Form";
+			this.btnClear.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnClear.UseVisualStyleBackColor = true;
+			this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+			// 
+			// btnClearInsert
+			// 
+			this.btnClearInsert.Image = global::MoeRenamer.Properties.Resources.LeftArrow;
+			this.btnClearInsert.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnClearInsert.Location = new System.Drawing.Point(281, 16);
+			this.btnClearInsert.Name = "btnClearInsert";
+			this.btnClearInsert.Size = new System.Drawing.Size(60, 23);
+			this.btnClearInsert.TabIndex = 13;
+			this.btnClearInsert.Text = "Clear";
+			this.btnClearInsert.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnClearInsert.UseVisualStyleBackColor = true;
+			this.btnClearInsert.Click += new System.EventHandler(this.btnClearInsert_Click);
+			// 
+			// btnTestRename
+			// 
+			this.btnTestRename.Image = ((System.Drawing.Image)(resources.GetObject("btnTestRename.Image")));
+			this.btnTestRename.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnTestRename.Location = new System.Drawing.Point(15, 644);
+			this.btnTestRename.Name = "btnTestRename";
+			this.btnTestRename.Size = new System.Drawing.Size(90, 23);
+			this.btnTestRename.TabIndex = 11;
+			this.btnTestRename.Text = "Test Only";
+			this.btnTestRename.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnTestRename.UseVisualStyleBackColor = true;
+			this.btnTestRename.Click += new System.EventHandler(this.btnTestRename_Click);
+			// 
+			// btnClearPrefixSuffix
+			// 
+			this.btnClearPrefixSuffix.Image = global::MoeRenamer.Properties.Resources.LeftArrow;
+			this.btnClearPrefixSuffix.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnClearPrefixSuffix.Location = new System.Drawing.Point(281, 17);
+			this.btnClearPrefixSuffix.Name = "btnClearPrefixSuffix";
+			this.btnClearPrefixSuffix.Size = new System.Drawing.Size(60, 23);
+			this.btnClearPrefixSuffix.TabIndex = 12;
+			this.btnClearPrefixSuffix.Text = "Clear";
+			this.btnClearPrefixSuffix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnClearPrefixSuffix.UseVisualStyleBackColor = true;
+			this.btnClearPrefixSuffix.Click += new System.EventHandler(this.btnClearPrefixSuffix_Click);
+			// 
+			// btnRenameFiles
+			// 
+			this.btnRenameFiles.Image = ((System.Drawing.Image)(resources.GetObject("btnRenameFiles.Image")));
+			this.btnRenameFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnRenameFiles.Location = new System.Drawing.Point(131, 644);
+			this.btnRenameFiles.Name = "btnRenameFiles";
+			this.btnRenameFiles.Size = new System.Drawing.Size(90, 23);
+			this.btnRenameFiles.TabIndex = 10;
+			this.btnRenameFiles.Text = "Rename";
+			this.btnRenameFiles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnRenameFiles.UseVisualStyleBackColor = true;
+			this.btnRenameFiles.Click += new System.EventHandler(this.btnRenameFiles_Click);
+			// 
+			// btnClearChangeCase
+			// 
+			this.btnClearChangeCase.Image = global::MoeRenamer.Properties.Resources.LeftArrow;
+			this.btnClearChangeCase.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnClearChangeCase.Location = new System.Drawing.Point(281, 170);
+			this.btnClearChangeCase.Name = "btnClearChangeCase";
+			this.btnClearChangeCase.Size = new System.Drawing.Size(60, 23);
+			this.btnClearChangeCase.TabIndex = 12;
+			this.btnClearChangeCase.Text = "Clear";
+			this.btnClearChangeCase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnClearChangeCase.UseVisualStyleBackColor = true;
+			this.btnClearChangeCase.Click += new System.EventHandler(this.btnClearChangeCase_Click);
+			// 
 			// MoeRenamer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1017,5 +1050,6 @@
 		private System.Windows.Forms.ErrorProvider errorProvider1;
 		private System.Windows.Forms.ColumnHeader FileName;
 		private System.Windows.Forms.ColumnHeader newFileName;
+		private System.Windows.Forms.Button button1;
 	}
 }
