@@ -49,11 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MoeRenamerIcon.ico</ApplicationIcon>
+    <ApplicationIcon>MoeRenamerLogo.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ManifestCertificateThumbprint>27F5A405B4426C879314611B6FAB120D09144EEA</ManifestCertificateThumbprint>
   </PropertyGroup>
@@ -65,6 +63,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -122,7 +123,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MoeRenamerIcon.ico" />
+    <Content Include="MoeRenamerLogo.ico" />
     <None Include="Resources\LeftArrow.png" />
   </ItemGroup>
   <ItemGroup>

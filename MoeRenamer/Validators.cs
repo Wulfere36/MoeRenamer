@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MoeRenamer {
+
 	partial class MoeRenamer {
 
 		private void txtLength_Validating(object sender, CancelEventArgs e) {
