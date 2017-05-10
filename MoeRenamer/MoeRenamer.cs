@@ -75,8 +75,9 @@ namespace MoeRenamer {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void btnSourceFolder_Click(object sender, EventArgs e) {
-			lstSource.Items.Clear();
-			MainClass.GetSourceFiles(lstSource, tbSource.Text);
+			grdSource.Rows.Clear();
+			lstDest.Items.Clear();
+			MainClass.GetSourceFiles(grdSource, tbSource.Text, imageList1);
 		}
 
 		/// <summary>
@@ -135,7 +136,7 @@ namespace MoeRenamer {
 		private void renameFiles() {
 
 			// make sure there is something to process before going any further
-			if (lstSource.Items.Count > 0) {
+			if (grdSource.Rows.Count > 0) {
 
 				// default some values before collecting them from the form
 				// need this in case the user removed some values. They are required for smooth\
@@ -244,7 +245,7 @@ namespace MoeRenamer {
 					}
 
 					// Calls the ProcessFiles method and loops through every entry in the Source Listview
-					MainClass.ProcessFiles(lstSource, lstDest, options, _testOnly);
+					MainClass.ProcessFiles(grdSource, lstDest, options, _testOnly, imageList1);
 
 				} else {
 					// form not validated. Right now it just means that there is nothing entered on the form
@@ -285,21 +286,6 @@ namespace MoeRenamer {
 				chkChangeExtension.Checked = false;
 			}
 				
-		}
-
-		/// <summary>
-		/// Created a richtextbox at the bottom of the screen, formatted as Courier New. The user can click on an
-		/// item in the source listview and it will put that text into the richtextbox. Above the richtextbox is
-		/// ruler, also formatted as Courier New, that will allow the user to see where in the string certain things are
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void lstSource_SelectedIndexChanged(object sender, EventArgs e) {
-			if (lstSource.SelectedItems.Count > 0) {
-				var item = lstSource.SelectedItems[0];
-				richTextBox1.Text = item.Text;
-			}
-
 		}
 
 		/// <summary>
@@ -487,6 +473,12 @@ namespace MoeRenamer {
 			toolTipRenamer.SetToolTip(tbSource, fbd.SelectedPath.ToString());
 			tbDest.Text = tbSource.Text;
 			toolTipRenamer.SetToolTip(tbDest, fbd.SelectedPath.ToString());
+		}
+
+		private void grdSource_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+			richTextBox1.Text = grdSource.CurrentCell.Value.ToString();
+			richTextBox1.Text = grdSource.CurrentRow.Cells[0].Value.ToString();
+
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace MoeRenamer {
 		int _chgCase;				// 0 - lowercase, 1 - uppercase, 2 - camelcase
 		int _prefixSuffix;			// 0 - prefix, 1 - suffix, -1 - nothing
 		int _paddingSize;			// how many characters to pad the prefix/suffix to
-		int _insertRemoveMove;		// 0 - insert, 1 - remove, 2 - move
+		int _insertRemoveMove = -1;		// 0 - insert, 1 - remove, 2 - move
 		int _startingPosition;		// where to begin the insert or move, if textbox empty, then beginning of substring to remove/move
 		int _stringLength;			// if textbox empty, then length of substring to remove/move
 		int _newExactPosition;      // character position where to insert/move to

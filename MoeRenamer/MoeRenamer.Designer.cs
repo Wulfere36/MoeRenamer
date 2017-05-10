@@ -24,8 +24,12 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MoeRenamer));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.grdSource = new System.Windows.Forms.DataGridView();
+			this.grdFilename = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.grdAction = new System.Windows.Forms.DataGridViewImageColumn();
 			this.button1 = new System.Windows.Forms.Button();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -37,9 +41,6 @@
 			this.lblSource = new System.Windows.Forms.Label();
 			this.lstDest = new System.Windows.Forms.ListView();
 			this.newFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.lstSource = new System.Windows.Forms.ListView();
-			this.FileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.Success = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.btnClear = new System.Windows.Forms.Button();
 			this.grpInsertRemove = new System.Windows.Forms.GroupBox();
@@ -107,6 +108,7 @@
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.grdSource)).BeginInit();
 			this.grpInsertRemove.SuspendLayout();
 			this.grpPrefixSuffix.SuspendLayout();
 			this.grpMainRename.SuspendLayout();
@@ -122,6 +124,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.grdSource);
 			this.splitContainer1.Panel1.Controls.Add(this.button1);
 			this.splitContainer1.Panel1.Controls.Add(this.richTextBox1);
 			this.splitContainer1.Panel1.Controls.Add(this.label2);
@@ -132,7 +135,6 @@
 			this.splitContainer1.Panel1.Controls.Add(this.lblDest);
 			this.splitContainer1.Panel1.Controls.Add(this.lblSource);
 			this.splitContainer1.Panel1.Controls.Add(this.lstDest);
-			this.splitContainer1.Panel1.Controls.Add(this.lstSource);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -146,6 +148,60 @@
 			this.splitContainer1.Size = new System.Drawing.Size(909, 679);
 			this.splitContainer1.SplitterDistance = 536;
 			this.splitContainer1.TabIndex = 0;
+			// 
+			// grdSource
+			// 
+			this.grdSource.AllowUserToAddRows = false;
+			this.grdSource.AllowUserToDeleteRows = false;
+			this.grdSource.AllowUserToResizeColumns = false;
+			this.grdSource.AllowUserToResizeRows = false;
+			this.grdSource.BackgroundColor = System.Drawing.Color.White;
+			this.grdSource.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.grdSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.grdSource.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.grdFilename,
+            this.grdAction});
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.grdSource.DefaultCellStyle = dataGridViewCellStyle1;
+			this.grdSource.GridColor = System.Drawing.Color.White;
+			this.grdSource.Location = new System.Drawing.Point(3, 38);
+			this.grdSource.MultiSelect = false;
+			this.grdSource.Name = "grdSource";
+			this.grdSource.ReadOnly = true;
+			this.grdSource.RowHeadersVisible = false;
+			this.grdSource.RowTemplate.Height = 16;
+			this.grdSource.RowTemplate.ReadOnly = true;
+			this.grdSource.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.grdSource.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.grdSource.ShowCellErrors = false;
+			this.grdSource.ShowCellToolTips = false;
+			this.grdSource.ShowEditingIcon = false;
+			this.grdSource.ShowRowErrors = false;
+			this.grdSource.Size = new System.Drawing.Size(530, 237);
+			this.grdSource.TabIndex = 11;
+			this.grdSource.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSource_CellContentClick);
+			// 
+			// grdFilename
+			// 
+			this.grdFilename.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.grdFilename.FillWeight = 120F;
+			this.grdFilename.HeaderText = "Original Filename";
+			this.grdFilename.Name = "grdFilename";
+			this.grdFilename.ReadOnly = true;
+			// 
+			// grdAction
+			// 
+			this.grdAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.grdAction.FillWeight = 10F;
+			this.grdAction.HeaderText = "OK";
+			this.grdAction.Name = "grdAction";
+			this.grdAction.ReadOnly = true;
 			// 
 			// button1
 			// 
@@ -251,30 +307,6 @@
 			// 
 			this.newFileName.Text = "New Filename";
 			this.newFileName.Width = 522;
-			// 
-			// lstSource
-			// 
-			this.lstSource.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.FileName,
-            this.Success});
-			this.lstSource.LargeImageList = this.imageList1;
-			this.lstSource.Location = new System.Drawing.Point(3, 40);
-			this.lstSource.Name = "lstSource";
-			this.lstSource.Size = new System.Drawing.Size(530, 234);
-			this.lstSource.SmallImageList = this.imageList1;
-			this.lstSource.TabIndex = 0;
-			this.lstSource.UseCompatibleStateImageBehavior = false;
-			this.lstSource.View = System.Windows.Forms.View.Details;
-			this.lstSource.SelectedIndexChanged += new System.EventHandler(this.lstSource_SelectedIndexChanged);
-			// 
-			// FileName
-			// 
-			this.FileName.Text = "Original Filename";
-			this.FileName.Width = 496;
-			// 
-			// Success
-			// 
-			this.Success.Text = "OK";
 			// 
 			// imageList1
 			// 
@@ -978,6 +1010,7 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.grdSource)).EndInit();
 			this.grpInsertRemove.ResumeLayout(false);
 			this.grpInsertRemove.PerformLayout();
 			this.grpPrefixSuffix.ResumeLayout(false);
@@ -997,7 +1030,6 @@
 		private System.Windows.Forms.Label lblDest;
 		private System.Windows.Forms.Label lblSource;
 		private System.Windows.Forms.ListView lstDest;
-		private System.Windows.Forms.ListView lstSource;
 		private System.Windows.Forms.GroupBox grpPrefixSuffix;
 		private System.Windows.Forms.RadioButton radSuffix;
 		private System.Windows.Forms.RadioButton radPrefix;
@@ -1066,10 +1098,11 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button btnClearInsert;
 		private System.Windows.Forms.ErrorProvider errorProvider1;
-		private System.Windows.Forms.ColumnHeader FileName;
 		private System.Windows.Forms.ColumnHeader newFileName;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.ColumnHeader Success;
 		private System.Windows.Forms.ImageList imageList1;
+		private System.Windows.Forms.DataGridView grdSource;
+		private System.Windows.Forms.DataGridViewTextBoxColumn grdFilename;
+		private System.Windows.Forms.DataGridViewImageColumn grdAction;
 	}
 }

@@ -43,19 +43,21 @@ namespace MoeRenamer {
 		/// Opens the filebrowse dialog, and then loads the source listview with the files 
 		/// selected by the user
 		/// </summary>
-		/// <param name="lstSource">Listview in MoeRenamer form</param>
+		/// <param name="lstSource">DataGridView in MoeRenamer form</param>
 		/// <param name="sourceFolder">The folder where we want files from</param>
-		static public void GetSourceFiles(ListView lstSource, string sourceFolder) {
+		/// <param name="imageList1">The source of images from MoeRename form</param>
+		static public void GetSourceFiles(DataGridView lstSource, string sourceFolder, ImageList imageList1) {
 			try {
-				lstSource.Items.Clear();
+				lstSource.Rows.Clear();
 				if (sourceFolder != "") {
 					ofd.InitialDirectory = sourceFolder;
 					ofd.Multiselect = true;
 					ofd.ShowDialog();
 					string[] selectedFiles = ofd.SafeFileNames;
-					for (int x=0; x<selectedFiles.Length; x++) {
-						ListViewItem lvi = new ListViewItem(selectedFiles[x],1);
-						lstSource.Items.Add(lvi);
+					for (int x = 0; x < selectedFiles.Length; x++) {
+						DataGridViewRow row = (DataGridViewRow)lstSource.RowTemplate.Clone();
+						row.CreateCells(lstSource, selectedFiles[x], imageList1.Images[0]);
+						lstSource.Rows.Add(row);
 					}
 				}
 			}
@@ -72,14 +74,16 @@ namespace MoeRenamer {
 		/// <param name="lstDest"></param>
 		/// <param name="options"></param>
 		/// <param name="testOnly"></param>
-		static public void ProcessFiles(ListView lstSource, ListView lstDest, Options options, bool testOnly) {
+		/// <param name="imageList1">The source of images from MoeRename form</param>
+		static public void ProcessFiles(DataGridView lstSource, ListView lstDest, Options options, bool testOnly, ImageList imageList1) {
 			opt = options;
 			trueMulti = false;
 			chgExt = false;
 			addPrefix = false;
 			normReplace = false;
 			currentNumber = 1;
-			totalSourceItems = lstSource.Items.Count;
+			//totalSourceItems = lstSource.Items.Count;
+			totalSourceItems = lstSource.Rows.Count;
 
 			// clear the destination listview. We don't want old stuff here
 			lstDest.Items.Clear();
@@ -124,13 +128,14 @@ namespace MoeRenamer {
 			}
 
 			// begin the loop
-			foreach (ListViewItem itemRow in lstSource.Items) {
+			foreach (DataGridViewRow itemRow in lstSource.Rows) {
 
 				// get the next random element in the number array
 				nextRandomNumber = rand.Next(1, totalSourceItems+1);
+				string oldFilename = itemRow.Cells[0].Value.ToString();
 
 				// rename the file and store the new value in newFileName
-				newFileName = RenameFile(itemRow.SubItems[0].Text);
+				newFileName = RenameFile(oldFilename);
 
 				// add the new and improved filename to the destination listview
 				ListViewItem lvi = new ListViewItem(newFileName);
@@ -139,14 +144,16 @@ namespace MoeRenamer {
 				// if it isn't just a test, then do the actual file rename/move
 				if (!testOnly) {
 					// store the result of the renaming into a boolean value
-					_renameSucceeded = doPhysicalRename(itemRow.SubItems[0].Text, newFileName);
+					_renameSucceeded = doPhysicalRename(oldFilename, newFileName);
 
 					// if the rename was successful, then replace the item in the source listview with the new filename
 					// can also be the place where we would added a checkmark beside the filename, or an X
 					// I don't have that column yet.
 					if (_renameSucceeded) {
-						itemRow.SubItems[0].Text = newFileName;
-						itemRow.SubItems[1].Text = "";
+						itemRow.Cells[0].Value = newFileName;
+						itemRow.Cells[1].Value = imageList1.Images[1];
+					} else {
+						itemRow.Cells[1].Value = imageList1.Images[2];
 					}
 				}
 			}
