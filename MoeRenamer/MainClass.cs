@@ -54,7 +54,7 @@ namespace MoeRenamer {
 					ofd.ShowDialog();
 					string[] selectedFiles = ofd.SafeFileNames;
 					for (int x=0; x<selectedFiles.Length; x++) {
-						ListViewItem lvi = new ListViewItem(selectedFiles[x]);
+						ListViewItem lvi = new ListViewItem(selectedFiles[x],1);
 						lstSource.Items.Add(lvi);
 					}
 				}
@@ -146,6 +146,7 @@ namespace MoeRenamer {
 					// I don't have that column yet.
 					if (_renameSucceeded) {
 						itemRow.SubItems[0].Text = newFileName;
+						itemRow.SubItems[1].Text = "";
 					}
 				}
 			}

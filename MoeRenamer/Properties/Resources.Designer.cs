@@ -61,12 +61,42 @@ namespace MoeRenamer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Bullet {
+            get {
+                object obj = ResourceManager.GetObject("Bullet", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap LeftArrow {
             get {
                 object obj = ResourceManager.GetObject("LeftArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon OrangeCheck {
+            get {
+                object obj = ResourceManager.GetObject("OrangeCheck", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon RedX {
+            get {
+                object obj = ResourceManager.GetObject("RedX", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

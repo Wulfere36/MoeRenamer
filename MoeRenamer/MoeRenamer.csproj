@@ -108,6 +108,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Validators.resx">
+      <DependentUpon>Validators.cs</DependentUpon>
+    </None>
     <None Include="MoeRenamer_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -124,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MoeRenamerLogo.ico" />
+    <None Include="Resources\Images2.bmp" />
+    <None Include="Resources\RedX.ico" />
+    <None Include="Resources\OrangeCheck.ico" />
+    <None Include="Resources\Bullet.ico" />
     <None Include="Resources\LeftArrow.png" />
   </ItemGroup>
   <ItemGroup>
